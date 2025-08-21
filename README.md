@@ -19,21 +19,29 @@ The LEMP stack is a collection of open-source software components that work toge
 ![Instance Success](https://github.com/user-attachments/assets/5f3a1f1a-84f1-41d5-8a13-7d04ef173bf3)
 ![Instance Page](https://github.com/user-attachments/assets/be6f03c3-7ff0-470f-9872-bdd1fbddb286)
 
-* Download and install Git Bash.
+* Download and install Git Bash. Run:
 
-Run: `ssh -i  <Your-private-key.pem> ubuntu@<EC2-Public-IP-address>`
+```bash
+ssh -i  <Your-private-key.pem> ubuntu@<EC2-Public-IP-address>
+```
 
 ![Git bash instance connect](https://github.com/user-attachments/assets/b736b758-5a71-4375-800b-79cc22c16aef)
 
 ---
 ## 🔧 **STEP 1 ~ INSTALLING THE NGINX WEB SERVER**
 * In order to display web pages to our site visitors, we are going to employ Nginx, a high-performance web server. We'll use the apt package manager to install this package. Run:
-* `sudo apt update`
-* `sudo apt install nginx`
+```bash
+sudo apt update
+```
+```bash
+sudo apt install nginx
+```
 
 📌 To verify that nginx was successfully installed and is running as a service in Ubuntu.
 
-Run: `sudo systemctl status nginx`
+```bash
+sudo systemctl status nginx
+```
 
 * If it is green and running, then you did everything correctly - you have just launched your first Web Server in the Clouds!
 
@@ -43,7 +51,9 @@ Run: `sudo systemctl status nginx`
 
 📌 To check how we can access it locally in our Ubuntu shell.
 
-Run: `curl http://localhost:80` or `curl http://127.0.0.1:80`
+```bash
+curl http://localhost:80` or `curl http://127.0.0.1:80
+```
 
 📌 To test how our Nginx server can respond to requests from the internet.
 
@@ -58,30 +68,152 @@ Open a web browser to access: `http://<Public-IP-Address>:80`
 * MySQL is a popular relational database management system. So we will use it in our project.
 * You need to install a Database Management System (DBMS) to be able to store and manage data for your site in a relational database.
 
-Run: `sudo apt install mysql-server`
+```bash
+sudo apt install mysql-server
+```
 
 * confirm installation by typing Y, and then ENTER
 * log in to the MySQL console
 
-Run: `sudo mysql`
+```bash
+sudo mysql
+```
 
 ![sudo mysql](https://github.com/user-attachments/assets/ef643888-5ae2-475d-b21a-68bcc1f4be0b)
 
 
 * It's recommended that you run a security script that comes pre-installed with MySQL.
 
-`ALTERUSER'root'@localroot' IDENTIFIED WITH mysql_native_password BY'Password.1';`
+```bash
+ALTERUSER'root'@localroot' IDENTIFIED WITH mysql_native_password BY'Password.1';
+```
 
 
 * Exit the MySQL shell with: `mysql> exit`
 
 📌 Start the interactive script by running: 
 
-`sudo mysql_secure_installation`
+```bash
+sudo mysql_secure_installation
+```
 
 * This will ask if you want to configure the VALIDATE PASSWORD PLUGIN.
 * Answer Y for yes, or anything else to continue without enabling.
 
 ![sudo mysql secure installation](https://github.com/user-attachments/assets/df3c08cd-2d04-40b6-8da4-059566c6832c)
+
+📌 Test if you're able to log in to the MySQL console by typing: 
+
+```bash
+sudo mysql -p
+```
+
+---
+
+## 🐘 **STEP 3 ~ INSTALLING PHP**
+
+* Install PHP to process code and generate dynamic content for the web server.
+* You will need to install php-fpm and php-mysql.
+* To install these 2 packages at once, Run:
+
+```bash
+sudo apt install php-fpm php-mysql
+```
+
+![sudo apt install php-fpm php-mysql](https://github.com/user-attachments/assets/98394b8e-b633-4401-8ee2-1739cc3c9df9)
+
+---
+
+## **STEP 4 ~ CONFIGURING NGINX TO USE PHP PROCESSOR**
+
+* Create the root web directory for your_domain as follows:
+
+```bash
+sudo mkdir /var/www/projectLEMP
+```
+
+* Assign ownership of the directory with the $USER environment variable.
+
+```bash
+sudo chown -R $USER:$USER /var/www/projectLEMP
+```
+
+* Open a new configuration file in Nginx's sites-available directory using your preferred common-line editor.
+
+```bash
+sudo nano /etc/nginx/sites-available/projectLEMP
+```
+
+* 📌This will create a new blank file. Type in the following bare-bones configuration:
+
+```bash
+server {
+        listen 80;
+        server_name projectLEMP www.projectLEMP;
+        root /var/www/projectLEMP;
+
+        index index.html index.htm index.php;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
+        }
+
+        location ~ /\.ht {
+                deny all;
+        }
+}
+```
+
+* When you are done editing, save and close the file.
+* Activate your configuration by linking to the config file from Nginx's sites-enabled directory:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/projectLEMP /etc/nginx/sites-enabled/
+```
+
+* Test your configuration for syntax errors by typing:
+
+```bash
+sudo nginx -t
+```
+
+* We also need to disable default Nginx host that is currently configured to listen on port 80, for this run:
+
+```bash
+sudo unlink /etc/nginx/sites-enabled/default
+```
+
+* Reload Nginx to apply the changes:
+
+```bash
+sudo systemctl reload nginx
+```
+
+![sudo nginx -t](https://github.com/user-attachments/assets/03dfbbc7-f343-42eb-94bb-0a3c96788255)
+
+
+* 📌The web root /var/www/projectLEMP is still empty. Create an index.html file in that location.
+
+```bash
+sudo bash -c "echo 'Hello LEMP from hostname $(curl -X PUT -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\" -s http://169.254.169.254/latest/api/token | xargs -I {} curl -H \"X-aws-ec2-metadata-token: {}\" -s http://169.254.169.254/latest/meta-data/public-hostname) with public IP $(curl -X PUT -H \"X-aws-ec2-metadata-token-ttl-seconds: 21600\" -s http://169.254.169.254/latest/api/token | xargs -I {} curl -H \"X-aws-ec2-metadata-token: {}\" -s http://169.254.169.254/latest/meta-data/public-ipv4)' > /var/www/projectLEMP/index.html"
+```
+
+* Open your website URL using IP address or Public DNS name.
+
+```bash
+http://<Public-IP-Address>:80 or http://<Public-DNS-NAME>:80
+```
+
+> Your LEMP Stack is now fully configured.
+
+---
+
+
+## 🕵🏻‍♂️ **STEP 5 ~ TESTING PHP WITH NGINX**
 
 
