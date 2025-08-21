@@ -51,4 +51,37 @@ Open a web browser to access: `http://<Public-IP-Address>:80`
 
 ![Launch local ip on browser](https://github.com/user-attachments/assets/e2a649bb-7c13-4463-b5bf-fdb27ec3a018)
 
+---
+
+## 📁**STEP 2 ~ INSTALLING MYSQL**
+
+* MySQL is a popular relational database management system. So we will use it in our project.
+* You need to install a Database Management System (DBMS) to be able to store and manage data for your site in a relational database.
+
+Run: `sudo apt install mysql-server`
+
+* confirm installation by typing Y, and then ENTER
+* log in to the MySQL console
+
+Run: `sudo mysql`
+
+![sudo mysql](https://github.com/user-attachments/assets/ef643888-5ae2-475d-b21a-68bcc1f4be0b)
+
+
+* It's recommended that you run a security script that comes pre-installed with MySQL.
+
+`ALTERUSER'root'@localroot' IDENTIFIED WITH mysql_native_password BY'Password.1';`
+
+
+* Exit the MySQL shell with: `mysql> exit`
+
+📌 Start the interactive script by running: 
+
+`sudo mysql_secure_installation`
+
+* This will ask if you want to configure the VALIDATE PASSWORD PLUGIN.
+* Answer Y for yes, or anything else to continue without enabling.
+
+![sudo mysql secure installation](https://github.com/user-attachments/assets/df3c08cd-2d04-40b6-8da4-059566c6832c)
+
 
