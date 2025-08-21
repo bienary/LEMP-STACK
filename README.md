@@ -28,7 +28,7 @@ ssh -i  <Your-private-key.pem> ubuntu@<EC2-Public-IP-address>
 ![Git bash instance connect](https://github.com/user-attachments/assets/b736b758-5a71-4375-800b-79cc22c16aef)
 
 ---
-## 🔧 **STEP 1 ~ INSTALLING THE NGINX WEB SERVER**
+## 🖧 **STEP 1 ~ INSTALLING THE NGINX WEB SERVER**
 * In order to display web pages to our site visitors, we are going to employ Nginx, a high-performance web server. We'll use the apt package manager to install this package. Run:
 ```bash
 sudo apt update
@@ -215,5 +215,33 @@ http://<Public-IP-Address>:80 or http://<Public-DNS-NAME>:80
 
 
 ## 🕵🏻‍♂️ **STEP 5 ~ TESTING PHP WITH NGINX**
+
+* Open a new file called info.php
+
+```bash
+nano /var/www/projectLEMP/info.php
+```
+
+* Type the following lines into the new file.
+
+```bash
+<?php
+phpinfo();
+```
+
+* Access this page in your web browser.
+
+```bash
+http://Public_IP_Address/info.php
+```
+
+![PHP](https://github.com/user-attachments/assets/22f99343-6594-4268-8c0a-a9128413c772)
+
+* Remove the file you created as it contains sensitive information about your PHP environment.
+```bash
+sudo rm /var/www/projectLEMP/info.php
+```
+
+---
 
 
