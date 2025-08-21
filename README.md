@@ -335,7 +335,7 @@ try {
 
 ![NANO TODO](https://github.com/user-attachments/assets/a47519ea-0360-4673-a772-47f0bdf77d51)
 
-* Visit publi IP address in your web browser.
+* Visit public IP address in your web browser.
 ```bash
 http://<Public_domain_or_IP>/todo_list.php
 ```
@@ -345,3 +345,6 @@ http://<Public_domain_or_IP>/todo_list.php
 
 ---
 
+## **CONGRATULATIONS!**
+
+Using Nginx as web server and MySQL as database management system, we have successfully built a flexible foundation for serving PHP websites and applications to our visitors.
