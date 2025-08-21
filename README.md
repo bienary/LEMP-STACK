@@ -244,4 +244,104 @@ sudo rm /var/www/projectLEMP/info.php
 
 ---
 
+## 🌍 **STEP 6 ~ RETRIEVING DATA FROM MYSQL DATABASE WITH PHP**
+
+* Connect to the MySQL console using the root account:
+
+```bash
+sudo mysql
+```
+
+* Create a new database, Run:
+```bash
+mysql> CREATE DATABASE 'example_database';
+```
+
+* Create new user and grant full privileges on the database.
+
+```bash
+mysql> CREATE USER 'example_user'@'%' IDENTIFIED WITH mysql_native_password BY 'Password.1';
+```
+
+* Give this user permission.
+
+```bash
+mysql> GRANT ALL ON example_database.* TO 'example_user'@'%';
+```
+
+* Exit MySQL shell : `mysql> exit`
+
+* Test if the new user has the proper permission.
+
+```bash
+mysql -u example_user -p
+```
+
+* Confirm you have access.
+
+```bash
+mysql> SHOW DATABASES
+```
+
+* Creat a test table named todo_list.
+
+```bash
+CREATE TABLE example_database.todo_list (
+	item_id INT AUTO_INCREMENT,
+	content VARCHAR (255),
+	PRIMARY KEY(item_id)
+);
+```
+
+* Using different values.
+
+```bash
+mysql> INSERT INTO example_database.todo_list (content) VALUES ("My first important item is to learn");
+	INSERT INTO example_database.todo_list (content) VALUES ("My second important item is to acquire new skills");
+	INSERT INTO example_database.todo_list (content) VALUES ("My Third important item is to keep learning");
+```
+
+* Confirm the data was successful.
+
+```bash
+mysql> SELECT * FROM example_database.todo_list;
+```
+
+![mysql data](https://github.com/user-attachments/assets/75ab196e-c93f-4d40-9bc2-4fec0ffbffb4)
+
+* Exit MySQl console : `mysql> exit`
+
+* Create a PHP script that will connect to MySQL.
+
+```bash
+<?php
+$user = "example_user";
+$password = "PassWord.1";
+$database = "example_database";
+$table= "todo_list";
+
+try {
+    $db = new PDO("mysql:host=localhost;dbname=$database", $user, $password);
+    echo "<h2>TODO</h2><ol>";
+    foreach ($db->query("SELECT content FROM $table") as $row) {
+        echo "<li>" . $row['content'] . "</li>";
+    }
+    echo "</ol>";
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
+```
+
+![NANO TODO](https://github.com/user-attachments/assets/a47519ea-0360-4673-a772-47f0bdf77d51)
+
+* Visit publi IP address in your web browser.
+```bash
+http://<Public_domain_or_IP>/todo_list.php
+```
+
+![TODO LIST WEB](https://github.com/user-attachments/assets/52e7dd45-ba0f-49cd-8e23-b74e259ef318)
+
+
+---
 
