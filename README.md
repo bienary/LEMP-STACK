@@ -345,6 +345,6 @@ http://<Public_domain_or_IP>/todo_list.php
 
 ---
 
-## **CONGRATULATIONS!**
+## 🏆 🥇 **CONGRATULATIONS!**
 
 Using Nginx as web server and MySQL as database management system, we have successfully built a flexible foundation for serving PHP websites and applications to our visitors.
