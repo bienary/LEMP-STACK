@@ -1,5 +1,5 @@
 # 🧱DevOps/Cloud Engineering > WEB STACK IMPLEMENTATION (LEMP STACK)
-🛠️ **DEVELOPMENT**
+## 🛠️ **DEVELOPMENT**
 
 The LEMP stack is a collection of open-source software components that work together to host and run dynamic websites and web applications. It is similar to the LAMP stack, but replaces Apache with Nginx, a high-performance web server.🔥
 
